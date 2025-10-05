@@ -45,10 +45,10 @@ class ApplicationController < ActionController::Base
 
     projects.each do |project|
       (project[:start_date]..project[:end_date]).each do |date|
-        current_date = dates[date.to_time.to_i]
+        current_date = dates[date]
 
         if current_date.nil?
-          dates[date.to_time.to_i] = {cost: project[:cost], project_number: [project[:project_number]]}
+          dates[date] = {cost: project[:cost], project_number: [project[:project_number]]}
         else
           current_date[:cost] = project[:cost] == 'High' ? 'High' : current_date[:cost]
           current_date[:project_number].push(project[:project_number])
@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
 
       end
     end
-
+    
     dates
   end
 end
