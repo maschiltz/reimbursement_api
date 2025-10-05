@@ -1,0 +1,10 @@
+<% unless @contents.nil? %>
+RESULTS GO HERE
+<% end %>
+
+<%= form_with url: '/' do |form| %>
+  <%= form.label :documents %>
+  <%= form.file_field :documents, multiple: true %> <%# For multiple files %>
+
+  <%= form.submit %>
+<% end %>
