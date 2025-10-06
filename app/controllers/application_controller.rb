@@ -5,7 +5,9 @@ class ApplicationController < ActionController::Base
       begin
         files = params[:files]
         parsed_data = process_files(files)
-        days = data_to_days(parsed_data)
+        @days = data_to_days(parsed_data)
+        mark_traveling(@days)
+        calculate(@days)
       rescue => e
         raise e
       end
@@ -58,5 +60,36 @@ class ApplicationController < ActionController::Base
     end
     
     dates
+  end
+
+  # loop over the dates in chronological order and mark each one as traveling or full
+  def mark_traveling(dates)
+    dates.keys.sort.each do |date|
+      value = dates[date]
+      dates[date][:type] = (dates[date - 1.day] && dates[date + 1.day]) ? 'full' : 'travel'
+    end
+  end
+
+  # calculate the amount for each day and store it on the day object
+  def calculate(dates)
+    amounts = {
+      cost: {
+        low: 45,
+        high: 75
+      },
+      type: {
+        travel: 0,
+        full: 10
+      }
+    }
+
+    dates.each do |date, info|
+      info[:amount] = 0
+      amounts.keys.each do |attr|
+        puts amounts[attr]
+        puts info[attr]
+        info[:amount] += amounts[attr][info[attr].downcase.to_sym]
+      end
+    end
   end
 end

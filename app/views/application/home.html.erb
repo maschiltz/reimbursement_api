@@ -1,5 +1,22 @@
-<% unless @contents.nil? %>
-  <%= @contents %>
+<% unless @days.nil? %>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Extra Info</th>
+    </tr>
+  <% @days.each do |day, data| %>
+    <tr>
+      <td><%= day %></td>
+      <td><%= data[:amount] %></td>
+      <td><a href="#" title="cost: <%= data[:cost] %>, type: <%= data[:type] %>, projects: <%= data[:project_number] %>">info</a>
+    </tr>
+  <% end %>
+  </table>
+  <br />
+  <div>
+    Total Amount: <%= @days.values.sum { |day| day[:amount] } %>
+  </div>
 <% end %>
 
 <%= form_with url: '/' do |form| %>
