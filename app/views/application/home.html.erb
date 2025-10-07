@@ -8,7 +8,7 @@
         <th>Amount</th>
         <th>Extra Info (hover)</th>
       </tr>
-    <% @days.each do |day, data| %>
+    <% @days.sort.each do |day, data| %>
       <tr>
         <td><%= day %></td>
         <td style="text-align: right"><%= data[:amount] %></td>
@@ -19,6 +19,8 @@
     <br />
     <div>
       Total Amount: <%= @days.values.sum { |day| day[:amount] } %>
+      <br />
+      <br />
     </div>
   <% end %>
 <% end %>
@@ -26,6 +28,7 @@
 <%= form_with url: '/' do |form| %>
   <%= form.label 'Upload Project File' %>
   <%= form.file_field :files, multiple: true, include_hidden: false %>
+  <br />
   <br />
   OR
   <br />
