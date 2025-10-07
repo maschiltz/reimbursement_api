@@ -125,8 +125,6 @@ class ApplicationController < ActionController::Base
     dates.each do |date, info|
       info[:amount] = 0
       amounts.keys.each do |attr|
-        puts amounts[attr]
-        puts info[attr]
         info[:amount] += amounts[attr][info[attr].downcase.to_sym]
       end
     end

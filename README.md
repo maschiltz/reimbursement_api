@@ -2,6 +2,8 @@
 
 You should be able to just clone my repo locally and start it up using
 
+`gem install bundler`
+`bundle install`
 `bin/rails s`
 
 I had fun writing it, and hope you like my approach.
