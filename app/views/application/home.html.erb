@@ -1,27 +1,36 @@
 <% unless @days.nil? %>
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>Amount</th>
-      <th>Extra Info</th>
-    </tr>
-  <% @days.each do |day, data| %>
-    <tr>
-      <td><%= day %></td>
-      <td><%= data[:amount] %></td>
-      <td><a href="#" title="cost: <%= data[:cost] %>, type: <%= data[:type] %>, projects: <%= data[:project_number] %>">info</a>
-    </tr>
+  <% if @errors.any? %>
+    <%= @errors.join(',') %>
+  <% else %>
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Extra Info (hover)</th>
+      </tr>
+    <% @days.each do |day, data| %>
+      <tr>
+        <td><%= day %></td>
+        <td style="text-align: right"><%= data[:amount] %></td>
+        <td><div title="cost: <%= data[:cost] %>, type: <%= data[:type] %>, projects: <%= data[:project_number] %>">&#9432;</div>
+      </tr>
+    <% end %>
+    </table>
+    <br />
+    <div>
+      Total Amount: <%= @days.values.sum { |day| day[:amount] } %>
+    </div>
   <% end %>
-  </table>
-  <br />
-  <div>
-    Total Amount: <%= @days.values.sum { |day| day[:amount] } %>
-  </div>
 <% end %>
 
 <%= form_with url: '/' do |form| %>
   <%= form.label 'Upload Project File' %>
-  <%= form.file_field :files, multiple: true, include_hidden: false %> <%# For multiple files %>
+  <%= form.file_field :files, multiple: true, include_hidden: false %>
+  <br />
+  OR
+  <br />
+  <%= form.label 'Enter Text Here' %>
+  <%= form.text_area :text %>
   <br />
   <%= form.submit %>
 <% end %>
